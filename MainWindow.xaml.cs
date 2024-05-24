@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BookStore.ApplicationData;
+using BookStore.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +25,7 @@ namespace BookStore
         public MainWindow()
         {
             InitializeComponent();
+            AppConnect.model0db = new Entities();
         }
     }
 }
