@@ -26,6 +26,7 @@ namespace BookStore
         {
             InitializeComponent();
             AppConnect.model0db = new Entities();
+            AppConnect.bookStoreHEntities = new BookStoreHEntities();
         }
     }
 }

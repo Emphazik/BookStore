@@ -25,6 +25,7 @@ namespace BookStore.Windows
         {
             InitializeComponent();
             AppConnect.model0db = new Entities();
+            AppConnect.bookStoreHEntities = new BookStoreHEntities();
         }
 
         private void btnAuthorize_Click(object sender, RoutedEventArgs e)
@@ -38,7 +39,9 @@ namespace BookStore.Windows
 
         private void btnRegister_Click(object sender, RoutedEventArgs e)
         {
-
+            Registration register = new Registration();
+            register.Show();
+            this.Close();
         }
     }
 }
