@@ -30,41 +30,9 @@ namespace BookStore.Windows
 
         private void btnAuthorize1_Click(object sender, RoutedEventArgs e)
         {
-            if (txtConfirmPassword.Password != txtConfirmPassword.Password)
-            {
-                btnRegister1.IsEnabled = false;
-            }
-            else 
-            { 
-                btnRegister1.IsEnabled = true; 
-            }
-            //------------------------------------------------------------------------------------------------
-            if (AppConnect.bookStoreHEntities.Users.Count(x => x.Login == txtLogin.Text) > 0)
-            {
-                MessageBox.Show("Такой пользователь уже существует!",
-                    "Уведомление", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-            //------------------------------------------------------------------------------------------------
-            if (txtEmail.Text.Contains("@"))
-            {
-                if (txtPhone.Text.Length < 10 || !txtPhone.Text.Contains("+") || txtPhone.Text.Length > 15)
-                {
-                    MessageBox.Show("Неверный формат телефона!",
-                           "Уведомление", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
-                }
-                else
-                {
-                    registration_process();
-                }
-            }
-            else
-            {
-                MessageBox.Show("Неверный формат почты",
-                       "Уведомление", MessageBoxButton.OK, MessageBoxImage.Information);
-                return;
-            }
+            Authorization auth = new Authorization();
+            auth.Show();
+            this.Close();
         }
 
         public void registration_process()
@@ -97,7 +65,47 @@ namespace BookStore.Windows
         }
         private void btnRegister1_Click(object sender, RoutedEventArgs e)
         {
-
+            if (string.IsNullOrWhiteSpace(txtLogin.Text) || string.IsNullOrWhiteSpace(txtPassword.Password))
+            {
+                MessageBox.Show("Все поля должны быть заполнены.",
+                "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            if (txtConfirmPassword.Password != txtPassword.Password)
+            {
+                btnRegister1.IsEnabled = false;
+            }
+            else
+            {
+                btnRegister1.IsEnabled = true;
+            }
+            //------------------------------------------------------------------------------------------------
+            if (AppConnect.bookStoreHEntities.Users.Count(x => x.Login == txtLogin.Text) > 0)
+            {
+                MessageBox.Show("Такой пользователь уже существует!",
+                    "Уведомление", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            //------------------------------------------------------------------------------------------------
+            if (txtEmail.Text.Contains("@"))
+            {
+                if (txtPhone.Text.Length < 10 || !txtPhone.Text.Contains("+") || txtPhone.Text.Length > 15)
+                {
+                    MessageBox.Show("Неверный формат телефона!",
+                           "Уведомление", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+                else
+                {
+                    registration_process();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Неверный формат почты",
+                       "Уведомление", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
         }
 
         private void txtPhone_TextChanged(object sender, TextChangedEventArgs e)
