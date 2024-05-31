@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BookStore"
         mc:Ignorable="d"
-        Title="BookStore" Height="800" Width="1000" Icon="/Resourses/BookStoreIcon.png" WindowStartupLocation="CenterScreen">
+        Title="BookStore" Height="800" Width="1000" Icon="/Windows/BookStoreIcon.png" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.Background>
             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
@@ -15,5 +15,93 @@
                 <GradientStop Color="#FF6FC3C9" Offset="1"/>
             </LinearGradientBrush>
         </Grid.Background>
+
+        <Menu VerticalAlignment="Top">
+            <MenuItem Header="Файл">
+                <MenuItem Header="Открыть" />
+                <MenuItem Header="Сохранить" />
+                <Separator />
+                <MenuItem Header="Выход" />
+            </MenuItem>
+            <MenuItem Header="Редактировать">
+                <MenuItem Header="Добавить книгу" />
+                <MenuItem Header="Изменить книгу" />
+                <MenuItem Header="Удалить книгу" />
+            </MenuItem>
+        </Menu>
+
+        <StackPanel Orientation="Horizontal" Margin="10,30,10,10" VerticalAlignment="Top">
+            <TextBox Name="SearchBox" Width="300" Height="30" Margin="5" />
+            <ComboBox Name="SortBox" Width="150" Height="30" Margin="5">
+                <ComboBoxItem Content="Сортировать по названию"/>
+                <ComboBoxItem Content="Сортировать по автору"/>
+                <ComboBoxItem Content="Сортировать по цене"/>
+            </ComboBox>
+            <Button Name="ClearButton" Content="Очистить" Width="100" Height="30" Margin="5"/>
+        </StackPanel>
+
+        <ScrollViewer Margin="10,70,10,10">
+            <WrapPanel Name="BooksPanel" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top">
+                <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Margin="10" Padding="10" Background="White">
+                    <StackPanel>
+                        <Image Source="/Resourses/harry_potter.jpg" Width="200" Height="300" Stretch="Uniform"/>
+                        <TextBlock Text="Гарри Поттер и философский камень" FontWeight="Bold" TextAlignment="Center" Margin="0,5,0,0"/>
+                        <TextBlock Text="Джоан Роулинг" FontStyle="Italic" TextAlignment="Center" Margin="0,5,0,0"/>
+                        <TextBlock Text="Цена: 450 руб." TextAlignment="Center" Margin="0,5,0,0"/>
+                        <Button Content="Добавить в корзину" Width="200" Margin="0,5,0,0" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+
+                <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Margin="10" Padding="10" Background="White">
+                    <StackPanel>
+                        <Image Source="/Resourses/harry_potter.jpg" Width="200" Height="300" Stretch="Uniform"/>
+                        <TextBlock Text="Гарри Поттер и философский камень" FontWeight="Bold" TextAlignment="Center" Margin="0,5,0,0"/>
+                        <TextBlock Text="Джоан Роулинг" FontStyle="Italic" TextAlignment="Center" Margin="0,5,0,0"/>
+                        <TextBlock Text="Цена: 450 руб." TextAlignment="Center" Margin="0,5,0,0"/>
+                        <Button Content="Добавить в корзину" Width="200" Margin="0,5,0,0" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+
+                <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Margin="10" Padding="10" Background="White">
+                    <StackPanel>
+                        <Image Source="/Resourses/harry_potter.jpg" Width="200" Height="300" Stretch="Uniform"/>
+                        <TextBlock Text="Гарри Поттер и философский камень" FontWeight="Bold" TextAlignment="Center" Margin="0,5,0,0"/>
+                        <TextBlock Text="Джоан Роулинг" FontStyle="Italic" TextAlignment="Center" Margin="0,5,0,0"/>
+                        <TextBlock Text="Цена: 450 руб." TextAlignment="Center" Margin="0,5,0,0"/>
+                        <Button Content="Добавить в корзину" Width="200" Margin="0,5,0,0" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+
+                <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Margin="10" Padding="10" Background="White">
+                    <StackPanel>
+                        <Image Source="/Resourses/harry_potter.jpg" Width="200" Height="300" Stretch="Uniform"/>
+                        <TextBlock Text="Гарри Поттер и философский камень" FontWeight="Bold" TextAlignment="Center" Margin="0,5,0,0"/>
+                        <TextBlock Text="Джоан Роулинг" FontStyle="Italic" TextAlignment="Center" Margin="0,5,0,0"/>
+                        <TextBlock Text="Цена: 450 руб." TextAlignment="Center" Margin="0,5,0,0"/>
+                        <Button Content="Добавить в корзину" Width="200" Margin="0,5,0,0" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+                <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Margin="10" Padding="10" Background="White">
+                    <StackPanel>
+                        <Image Source="/Resourses/harry_potter.jpg" Width="200" Height="300" Stretch="Uniform"/>
+                        <TextBlock Text="Гарри Поттер и философский камень" FontWeight="Bold" TextAlignment="Center" Margin="0,5,0,0"/>
+                        <TextBlock Text="Джоан Роулинг" FontStyle="Italic" TextAlignment="Center" Margin="0,5,0,0"/>
+                        <TextBlock Text="Цена: 450 руб." TextAlignment="Center" Margin="0,5,0,0"/>
+                        <Button Content="Добавить в корзину" Width="200" Margin="0,5,0,0" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+                <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Margin="10" Padding="10" Background="White">
+                    <StackPanel>
+                        <Image Source="/Resourses/harry_potter.jpg" Width="200" Height="300" Stretch="Uniform"/>
+                        <TextBlock Text="Гарри Поттер и философский камень" FontWeight="Bold" TextAlignment="Center" Margin="0,5,0,0"/>
+                        <TextBlock Text="Джоан Роулинг" FontStyle="Italic" TextAlignment="Center" Margin="0,5,0,0"/>
+                        <TextBlock Text="Цена: 450 руб." TextAlignment="Center" Margin="0,5,0,0"/>
+                        <Button Content="Добавить в корзину" Width="200" Margin="0,5,0,0" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+            </WrapPanel>
+            
+        </ScrollViewer>
+        
     </Grid>
 </Window>

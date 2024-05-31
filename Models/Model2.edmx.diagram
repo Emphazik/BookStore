@@ -8,6 +8,13 @@
         <EntityTypeShape EntityType="BookStoreHModel.Roles" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
         <EntityTypeShape EntityType="BookStoreHModel.Users" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
         <AssociationConnector Association="BookStoreHModel.FK_Users_Roles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="BookStoreHModel.Authors" Width="1.5" PointX="0.75" PointY="6.25" />
+        <EntityTypeShape EntityType="BookStoreHModel.Books" Width="1.5" PointX="3" PointY="5" />
+        <EntityTypeShape EntityType="BookStoreHModel.Categories" Width="1.5" PointX="0.75" PointY="9.125" />
+        <EntityTypeShape EntityType="BookStoreHModel.Publishers" Width="1.5" PointX="0.75" PointY="11.5" />
+        <AssociationConnector Association="BookStoreHModel.FK__Books__idAuthor__6D0D32F4" />
+        <AssociationConnector Association="BookStoreHModel.FK__Books__idCategor__6E01572D" />
+        <AssociationConnector Association="BookStoreHModel.FK__Books__idPublish__6C190EBB" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

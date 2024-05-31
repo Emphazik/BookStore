@@ -27,5 +27,9 @@ namespace BookStore.Models
     
         public virtual DbSet<Roles> Roles { get; set; }
         public virtual DbSet<Users> Users { get; set; }
+        public virtual DbSet<Authors> Authors { get; set; }
+        public virtual DbSet<Books> Books { get; set; }
+        public virtual DbSet<Categories> Categories { get; set; }
+        public virtual DbSet<Publishers> Publishers { get; set; }
     }
 }
