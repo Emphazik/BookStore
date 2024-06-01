@@ -206,6 +206,10 @@
       <DependentUpon>Model2.edmx</DependentUpon>
       <LastGenOutput>Model2.cs</LastGenOutput>
     </Content>
+    <Resource Include="Resourses\buyToCart.png" />
+    <Resource Include="Resourses\delete.png" />
+    <Resource Include="Resourses\poisk.png" />
+    <Resource Include="Resourses\update.png" />
     <Resource Include="Resourses\crime_and_punishment.jpg" />
     <Resource Include="Resourses\game_of_thrones.jpg" />
     <Resource Include="Resourses\three_sisters.jpg" />

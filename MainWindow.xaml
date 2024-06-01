@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BookStore"
         mc:Ignorable="d"
-        Title="BookStore" Height="800" Width="1000" Icon="/Windows/BookStoreIcon.png" WindowStartupLocation="CenterScreen">
+        Title="BookStore" Height="800" Width="1100" Icon="/Windows/BookStoreIcon.png" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.Background>
             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
@@ -15,50 +15,85 @@
                 <GradientStop Color="#FF6FC3C9" Offset="1"/>
             </LinearGradientBrush>
         </Grid.Background>
-        <StackPanel>
-            <!-- Search, Sort and Clear Buttons -->
+        
+    <StackPanel>
+            
             <StackPanel Orientation="Horizontal" Margin="10">
-                <TextBox x:Name="searchTextBox" Width="200" Margin="0,0,10,0" />
-                <ComboBox Name="SortBox" Width="150" Height="30" Margin="5">
+                <TextBox x:Name="searchTextBox" Width="200" Margin="0,0,5,0" FontSize="14"/>
+                <Button Width="30" Margin="0,0,5,0" Click="Search_Click">
+                    <Image Source="/Resourses/poisk.png" Stretch="Uniform"/>
+                </Button>
+                <Button Width="30" Click="Clear_Click">
+                    <Image Source="/Resourses/delete.png" Stretch="Uniform"/>
+                </Button>
+                <ComboBox  Name="SortBox" Width="200" Height="30" Margin="5">
                     <ComboBoxItem Content="Сортировать по названию"/>
                     <ComboBoxItem Content="Сортировать по автору"/>
                     <ComboBoxItem Content="Сортировать по цене"/>
                 </ComboBox>
-                <Button Content="Поиск" Width="100" Margin="0,0,10,0" Click="Search_Click"/>
                 
-                
-                <Button Content="Очистить" Width="100" Click="Clear_Click"/>
             </StackPanel>
 
-            <ListView x:Name="booksListView" Margin="10">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid Margin="5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="200"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="200"/>
-                            </Grid.ColumnDefinitions>
-                            <Image Source="{Binding Path=ImageURL}" Width="150" Height="200" Grid.Column="0" Margin="10"/>
-                            <StackPanel Grid.Column="1" Margin="10">
-                                <TextBlock Text="{Binding Path=Title}" FontWeight="Bold" FontSize="16"/>
-                                <TextBlock Text="{Binding Path=Authors.Name, StringFormat='Автор: {0}'}" Margin="0,5,0,0"/>
-                                <TextBlock Text="{Binding Path=Categories.Name, StringFormat='Категория: {0}'}" Margin="0,5,0,0"/>
-                                <TextBlock Text="{Binding Path=Publishers.Name, StringFormat='Издательство: {0}'}" Margin="0,5,0,0"/>
-                                <TextBlock Text="{Binding Path=year_of_publication, StringFormat='Год издания: {0}'}" Margin="0,5,0,0"/>
-                                <TextBlock Text="{Binding Path=Size, StringFormat='Размер: {0}'}" Margin="0,5,0,0"/>
-                                <TextBlock Text="{Binding Path=Weight, StringFormat='Вес: {0} кг'}" Margin="0,5,0,0"/>
-                                <TextBlock Text="{Binding Path=Pages, StringFormat='Страниц: {0}'}" Margin="0,5,0,0"/>
-                                <TextBlock Text="{Binding Path=Description, StringFormat='Описание: {0}'}" TextWrapping="Wrap" Margin="0,5,0,0"/>
-                            </StackPanel>
-                            <StackPanel Grid.Column="2" Margin="10" VerticalAlignment="Top">
-                                <TextBlock Text="{Binding Path=Price, StringFormat='Цена: {0} руб.'}" FontWeight="Bold" FontSize="14"/>
-                                <Button Content="Добавить в корзину" Width="150" Margin="0,10,0,0" Click="AddToCart_Click"/>
-                            </StackPanel>
-                        </Grid>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="10">
+                <ItemsControl x:Name="booksListView">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="#FF3B8D99" BorderThickness="1" CornerRadius="10" Padding="10" Margin="5" Background="White">
+                                <Grid Width="220" Margin="5">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <StackPanel Grid.Row="0">
+                                        <Image Source="{Binding Path=ImageURL}" Width="150" Height="200" Margin="0,0,0,10"/>
+                                        <TextBlock Text="{Binding Path=Title}" HorizontalAlignment="Center" FontWeight="Bold" FontSize="16" TextWrapping="NoWrap" Margin="0,0,0,10"/>
+
+                                        <Button Content="Узнать подробную информацию" Click="ShowDetails_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                                            <Button.Template>
+                                                <ControlTemplate TargetType="Button">
+                                                    <TextBlock Text="{TemplateBinding Content}" TextDecorations="Underline" Foreground="Blue"/>
+                                                </ControlTemplate>
+                                            </Button.Template>
+                                        </Button>
+
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,10,0,0">
+                                        <TextBlock Text="{Binding Path=Price, StringFormat='Цена: {0} руб.'}" FontWeight="Bold" FontSize="14" VerticalAlignment="Center"/>
+                                        <Button Width="40" Height="30" Margin="10,0,0,0" VerticalAlignment="Top" Click="AddToCart_Click">
+                                            <Image Source="/Resourses/buyToCart.png" Stretch="Uniform"/>
+                                        </Button>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
         </StackPanel>
+
+        <Popup x:Name="detailsPopup" Width="400" Height="480" Placement="Center" IsOpen="False">
+            <Border Background="White" BorderBrush="#FF3B8D99" BorderThickness="2" CornerRadius="10" Padding="10">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <Image Source="{Binding Path=ImageURL}" Width="150" Height="200" Margin="0,0,0,10"/>
+                        <TextBlock Text="{Binding Path=Title}" FontWeight="Bold" FontSize="16" Margin="0,0,0,10"/>
+                        <TextBlock Text="{Binding Path=Authors.Name, StringFormat='Автор: {0}'}" Margin="0,5,0,0"/>
+                        <TextBlock Text="{Binding Path=Categories.Name, StringFormat='Категория: {0}'}" Margin="0,5,0,0"/>
+                        <TextBlock Text="{Binding Path=Publishers.Name, StringFormat='Издательство: {0}'}" Margin="0,5,0,0"/>
+                        <TextBlock Text="{Binding Path=year_of_publication, StringFormat='Год издания: {0}'}" Margin="0,5,0,0"/>
+                        <TextBlock Text="{Binding Path=Size, StringFormat='Размер: {0}'}" Margin="0,5,0,0"/>
+                        <TextBlock Text="{Binding Path=Weight, StringFormat='Вес: {0} кг'}" Margin="0,5,0,0"/>
+                        <TextBlock Text="{Binding Path=Pages, StringFormat='Страниц: {0}'}" Margin="0,5,0,0"/>
+                        <TextBlock Text="{Binding Path=Description}" TextWrapping="Wrap" Margin="0,10,0,0"/>
+                        <Button Content="Закрыть" Click="ClosePopup_Click" Margin="10,10,10,0"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+        </Popup>
     </Grid>
 </Window>

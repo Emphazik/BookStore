@@ -45,6 +45,22 @@ namespace BookStore
             }
         }
 
+        private void ShowDetails_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            if (button != null)
+            {
+                var book = button.DataContext;
+                detailsPopup.DataContext = book;
+                detailsPopup.IsOpen = true;
+            }
+        }
+
+        private void ClosePopup_Click(object sender, RoutedEventArgs e)
+        {
+            detailsPopup.IsOpen = false;
+        }
+
         private void Search_Click(object sender, RoutedEventArgs e)
         {
 
