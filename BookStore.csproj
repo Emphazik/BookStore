@@ -206,6 +206,10 @@
       <DependentUpon>Model2.edmx</DependentUpon>
       <LastGenOutput>Model2.cs</LastGenOutput>
     </Content>
+    <Resource Include="Resourses\crime_and_punishment.jpg" />
+    <Resource Include="Resourses\game_of_thrones.jpg" />
+    <Resource Include="Resourses\three_sisters.jpg" />
+    <Resource Include="Resourses\war_and_peace.jpg" />
     <Resource Include="Resourses\harry_potter.jpg" />
     <Resource Include="Windows\1.jpg" />
     <Resource Include="Windows\BookStoreIcon.png" />

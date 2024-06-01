@@ -14,6 +14,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Data.Entity;
+using System.Security.Policy;
 
 namespace BookStore
 {
@@ -25,8 +27,37 @@ namespace BookStore
         public MainWindow()
         {
             InitializeComponent();
+            LoadBooks();
             AppConnect.model0db = new Entities();
             AppConnect.bookStoreHEntities = new BookStoreHEntities();
+        }
+
+        public void LoadBooks()
+        {
+            using (var context = new BookStoreHEntities())
+            {
+                var books = context.Books
+                                   .Include(b => b.Authors)
+                                   .Include(b => b.Categories)
+                                   .Include(b => b.Publishers)
+                                   .ToList();
+                booksListView.ItemsSource = books;
+            }
+        }
+
+        private void Search_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Clear_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void AddToCart_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
