@@ -15,66 +15,68 @@
                 <GradientStop Color="#FF6FC3C9" Offset="1"/>
             </LinearGradientBrush>
         </Grid.Background>
-        
-    <StackPanel>
-            
-            <StackPanel Orientation="Horizontal" Margin="10">
-                <TextBox x:Name="searchTextBox" Width="200" Margin="0,0,5,0" FontSize="14"/>
-                <Button Width="30" Margin="0,0,5,0" Click="Search_Click">
-                    <Image Source="/Resourses/poisk.png" Stretch="Uniform"/>
-                </Button>
-                <Button Width="30" Click="Clear_Click">
-                    <Image Source="/Resourses/delete.png" Stretch="Uniform"/>
-                </Button>
-                <ComboBox  Name="SortBox" Width="200" Height="30" Margin="5">
-                    <ComboBoxItem Content="Сортировать по названию"/>
-                    <ComboBoxItem Content="Сортировать по автору"/>
-                    <ComboBoxItem Content="Сортировать по цене"/>
-                </ComboBox>
-                
-            </StackPanel>
 
-            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="10">
-                <ItemsControl x:Name="booksListView">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border BorderBrush="#FF3B8D99" BorderThickness="1" CornerRadius="10" Padding="10" Margin="5" Background="White">
-                                <Grid Width="220" Margin="5">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="*"/>
-                                    </Grid.RowDefinitions>
-                                    <StackPanel Grid.Row="0">
-                                        <Image Source="{Binding Path=ImageURL}" Width="150" Height="200" Margin="0,0,0,10"/>
-                                        <TextBlock Text="{Binding Path=Title}" HorizontalAlignment="Center" FontWeight="Bold" FontSize="16" TextWrapping="NoWrap" Margin="0,0,0,10"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-                                        <Button Content="Узнать подробную информацию" Click="ShowDetails_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
-                                            <Button.Template>
-                                                <ControlTemplate TargetType="Button">
-                                                    <TextBlock Text="{TemplateBinding Content}" TextDecorations="Underline" Foreground="Blue"/>
-                                                </ControlTemplate>
-                                            </Button.Template>
-                                        </Button>
-
-                                    </StackPanel>
-                                    <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,10,0,0">
-                                        <TextBlock Text="{Binding Path=Price, StringFormat='Цена: {0} руб.'}" FontWeight="Bold" FontSize="14" VerticalAlignment="Center"/>
-                                        <Button Width="40" Height="30" Margin="10,0,0,0" VerticalAlignment="Top" Click="AddToCart_Click">
-                                            <Image Source="/Resourses/buyToCart.png" Stretch="Uniform"/>
-                                        </Button>
-                                    </StackPanel>
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </ScrollViewer>
+        <StackPanel Orientation="Horizontal" Margin="10" Grid.Row="0">
+            <TextBox x:Name="searchTextBox" Width="350" Margin="0,0,5,0" FontSize="18" TextChanged="searchTextBox_TextChanged" AutomationProperties.HelpText="Поиск по названию книги:"/>
+            <ComboBox x:Name="SortBox" Width="200" Height="30" Margin="5" SelectionChanged="SortBox_SelectionChanged">
+                <ComboBoxItem Content="Сортировать по названию ↑"/>
+                <ComboBoxItem Content="Сортировать по названию ↓"/>
+                <ComboBoxItem Content="Сортировать по автору ↑"/>
+                <ComboBoxItem Content="Сортировать по автору ↓"/>
+                <ComboBoxItem Content="Сортировать по цене ↑"/>
+                <ComboBoxItem Content="Сортировать по цене ↓"/>
+            </ComboBox>
+            <Button Background="CadetBlue" BorderBrush="Black" Width="30" Margin="0,0,5,0" Click="Search_Click">
+                <Image Source="/Resourses/poisk.png" Stretch="Uniform"/>
+            </Button>
+            <Button Background="CadetBlue" BorderBrush="Black" Width="30" Click="Clear_Click">
+                <Image Source="/Resourses/delete.png" Stretch="Uniform"/>
+            </Button>
         </StackPanel>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible" Margin="10">
+            <ItemsControl x:Name="booksListView">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="#FF3B8D99" BorderThickness="1" CornerRadius="10" Padding="10" Margin="5" Background="White">
+                            <Grid Width="220" Margin="5">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <StackPanel Grid.Row="0">
+                                    <Image Source="{Binding Path=ImageURL}" Width="150" Height="200" Margin="0,0,0,10"/>
+                                    <TextBlock Text="{Binding Path=Title}" HorizontalAlignment="Center" FontWeight="Bold" FontSize="16" TextWrapping="NoWrap" Margin="0,0,0,10"/>
+                                    <Button Content="Узнать подробную информацию" Click="ShowDetails_Click" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                                        <Button.Template>
+                                            <ControlTemplate TargetType="Button">
+                                                <TextBlock Text="{TemplateBinding Content}" TextDecorations="Underline" Foreground="Blue"/>
+                                            </ControlTemplate>
+                                        </Button.Template>
+                                    </Button>
+                                </StackPanel>
+                                <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,10,0,0">
+                                    <TextBlock Text="{Binding Path=Price, StringFormat='Цена: {0} руб.'}" FontWeight="Bold" FontSize="14" VerticalAlignment="Center"/>
+                                    <Button Background="White" Width="40" Height="30" Margin="10,0,0,0" VerticalAlignment="Top" Click="AddToCart_Click">
+                                        <Image Source="/Resourses/buyToCart.png" Stretch="Uniform"/>
+                                    </Button>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
 
         <Popup x:Name="detailsPopup" Width="400" Height="480" Placement="Center" IsOpen="False">
             <Border Background="White" BorderBrush="#FF3B8D99" BorderThickness="2" CornerRadius="10" Padding="10">

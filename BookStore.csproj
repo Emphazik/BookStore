@@ -206,6 +206,13 @@
       <DependentUpon>Model2.edmx</DependentUpon>
       <LastGenOutput>Model2.cs</LastGenOutput>
     </Content>
+    <Resource Include="Resourses\1984.jpg" />
+    <Resource Include="Resourses\alice_in_wonderland.jpg" />
+    <Resource Include="Resourses\anna_karenina.jpg" />
+    <Resource Include="Resourses\journey_to_center_of_earth.jpg" />
+    <Resource Include="Resourses\master_and_margarita.jpg" />
+    <Resource Include="Resourses\quiet_don.jpg" />
+    <Resource Include="Resourses\sorry_but_i_miss.jpg" />
     <Resource Include="Resourses\buyToCart.png" />
     <Resource Include="Resourses\delete.png" />
     <Resource Include="Resourses\poisk.png" />
