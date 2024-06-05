@@ -5,6 +5,9 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Data.Entity;
+using BookStore.AdminWindows;
+using System;
+using System.Data;
 
 namespace BookStore
 {
@@ -55,6 +58,64 @@ namespace BookStore
             {
                 FilteredBooks.Add(book);
             }
+        }
+
+        private void DeleteBook_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            if (button != null)
+            {
+                var book = button.DataContext as Books;
+                if (book != null)
+                {
+                    if (MessageBox.Show($"Вы точно хотите удалить книгу '{book.Title}'?", "Подтверждение удаления",
+                        MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                    {
+                        try
+                        {
+                            using (var context = new BookStoreHEntities())
+                            {
+                                var existingBook = context.Books.Find(book.idBook);
+                                if (existingBook != null)
+                                {
+                                    context.Books.Remove(existingBook);
+                                    context.SaveChanges();
+                                    MessageBox.Show("Книга успешно удалена");
+                                    LoadBooks();
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Книга не найдена в базе данных");
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show($"Ошибка удаления книги: {ex.Message}");
+                        }
+                    }
+                }
+            }
+        }
+
+        private void Info_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Поиск работает по названию книги. Введите название книги в поле поиска и нажмите кнопку поиска или введите текст для автоматического обновления результатов.\n\n" +
+                            "Сортировка позволяет упорядочить книги по названию, автору и цене. Выберите вариант сортировки в выпадающем списке и книги будут отсортированы в соответствии с выбранным параметром.",
+                            "Информация о работе поиска и сортировки",
+                            MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void Add_Click(object sender, RoutedEventArgs e)
+        {
+            AddBooks add = new AddBooks();
+            add.Show();
+            this.Close();
+        }
+
+        private void User_Click(object sender, RoutedEventArgs e)
+        {
+
         }
 
         private void ShowDetails_Click(object sender, RoutedEventArgs e)

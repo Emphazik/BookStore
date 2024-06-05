@@ -64,6 +64,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AdminWindows\AddBooks.xaml.cs">
+      <DependentUpon>AddBooks.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ApplicationData\AppConnect.cs" />
     <Compile Include="Models\Authors.cs">
       <DependentUpon>Model2.tt</DependentUpon>
@@ -122,6 +125,10 @@
     <Compile Include="Windows\Authorization.xaml.cs">
       <DependentUpon>Authorization.xaml</DependentUpon>
     </Compile>
+    <Page Include="AdminWindows\AddBooks.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -206,6 +213,9 @@
       <DependentUpon>Model2.edmx</DependentUpon>
       <LastGenOutput>Model2.cs</LastGenOutput>
     </Content>
+    <Resource Include="Resourses\add.png" />
+    <Resource Include="Resourses\user.png" />
+    <Resource Include="Resourses\info.png" />
     <Resource Include="Resourses\1984.jpg" />
     <Resource Include="Resourses\alice_in_wonderland.jpg" />
     <Resource Include="Resourses\anna_karenina.jpg" />
