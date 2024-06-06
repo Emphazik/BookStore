@@ -80,12 +80,16 @@ namespace BookStore.Windows
                             main1.Show();
                             this.Close();
                             break;
-                        default:
+                        case 3:
                             MessageBox.Show($"Приветствую Менеджера, {user.Username}",
-                    "Уведомление", MessageBoxButton.OK, MessageBoxImage.Information);
+                   "Уведомление", MessageBoxButton.OK, MessageBoxImage.Information);
                             Manager1 manager = new Manager1();
                             manager.Show();
                             this.Close();
+                            break;
+                        default:
+                            MessageBox.Show("Данные не обнаружены!",
+                            "уведомление", MessageBoxButton.OK, MessageBoxImage.Information);
                             break;
                     }
                 }

@@ -24,12 +24,7 @@ namespace BookStore.Models
         {
             throw new UnintentionalCodeFirstException();
         }
-
-        internal static object GetContext()
-        {
-            throw new NotImplementedException();
-        }
-
+    
         public virtual DbSet<Roles> Roles { get; set; }
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<Authors> Authors { get; set; }

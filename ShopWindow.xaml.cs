@@ -77,30 +77,9 @@ namespace BookStore
                     {
                         var cartItems = context.Cart.Where(c => c.idOrder == order.id).ToList();
                         decimal total = 0;
-                        //string basePath = "C:\\Users\\andre\\Downloads\\BookStore\\BookStore\\BookStore";
 
                         foreach (var item in cartItems)
                         {
-                            //string imagePath = Path.Combine(basePath + item.Books.ImageURL);
-
-                            //if (!string.IsNullOrEmpty(item.Books.ImageURL) && File.Exists(imagePath))
-                            //{
-                            //    try
-                            //    {
-                            //        iTextSharp.text.Image img = iTextSharp.text.Image.GetInstance(imagePath);
-                            //        img.ScaleAbsolute(100f, 100f); // Scale image
-                            //        doc.Add(img);
-                            //    }
-                            //    catch (Exception imgEx)
-                            //    {
-                            //        MessageBox.Show("Ошибка при добавлении изображения: " + imgEx.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
-                            //    }
-                            //}
-                            //else
-                            //{
-                            //    MessageBox.Show("Изображение не найдено: " + imagePath, "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
-                            //}
-
                             doc.Add(new Paragraph("Название: " + item.Books.Title, font));
                             doc.Add(new Paragraph("Автор: " + item.Books.Authors.Name, font));
                             doc.Add(new Paragraph("Цена: " + item.Books.Price.ToString("F2") + " руб.", font));

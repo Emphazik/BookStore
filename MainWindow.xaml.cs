@@ -19,7 +19,7 @@ namespace BookStore
         {
             InitializeComponent();
             LoadBooks();
-            LoadCategories(); // Загружаем категории
+            LoadCategories(); 
             AppConnect.model0db = new Entities();
             AppConnect.bookStoreHEntities = new BookStoreHEntities();
         }
@@ -50,7 +50,7 @@ namespace BookStore
                 {
                     categoryComboBox.Items.Add(new ComboBoxItem { Content = category.Name });
                 }
-                categoryComboBox.SelectedIndex = 0; // Выбираем "Все категории" по умолчанию
+                categoryComboBox.SelectedIndex = 0; 
             }
         }
 

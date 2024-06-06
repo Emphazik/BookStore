@@ -37,15 +37,12 @@
             <Button Background="CadetBlue" BorderBrush="Black" Width="30" Margin="0,0,5,0" Click="Clear_Click">
                 <Image Source="/Resourses/delete.png" Stretch="Uniform"/>
             </Button>
-            <Button Background="CadetBlue" BorderBrush="Black" Width="30" Margin="0,0,300,0" Click="Info_Click">
+            <Button Background="CadetBlue" BorderBrush="Black" Width="30" Margin="0,0,330,0" Click="Info_Click">
                 <Image Source="/Resourses/info.png" Stretch="Uniform" Width="20"/>
             </Button>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,5,0">
                 <Button Background="CadetBlue" BorderBrush="Black" Width="45" Margin="0,0,5,0" Click="Shop_Click">
                     <Image Source="/Resourses/buyToCart.png" Stretch="Uniform" Width="32" Height="30"/>
-                </Button>
-                <Button Background="CadetBlue" BorderBrush="Black" Width="45" Margin="0,0,5,0" Click="User_Click">
-                    <Image Source="/Resourses/user.png" Stretch="Uniform" Width="32" Height="30"/>
                 </Button>
             </StackPanel>
         </StackPanel>
