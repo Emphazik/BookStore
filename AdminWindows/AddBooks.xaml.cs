@@ -14,8 +14,6 @@ namespace BookStore.AdminWindows
     {
         public static BookStoreHEntities bookStoreHEntities;
 
-        public object TestGrid { get; private set; }
-
         public AddBooks()
         {
             InitializeComponent();
@@ -37,7 +35,6 @@ namespace BookStore.AdminWindows
             CategoryComboBox.DisplayMemberPath = "Name";
             CategoryComboBox.SelectedValuePath = "idCategory";
 
-            // Убедитесь, что хотя бы один элемент выбран по умолчанию
             if (PublisherComboBox.Items.Count > 0)
             {
                 PublisherComboBox.SelectedIndex = 0;
@@ -57,7 +54,6 @@ namespace BookStore.AdminWindows
 
         private void AddBook_Click(object sender, RoutedEventArgs e)
         {
-            // Преобразование значений из текстовых полей в нужные типы
             if (int.TryParse(YearTextBox.Text, out int year) &&
                 int.TryParse(WeightTextBox.Text, out int weight) &&
                 int.TryParse(PagesTextBox.Text, out int pages) &&
@@ -119,14 +115,12 @@ namespace BookStore.AdminWindows
 
                 try
                 {
-                    // Проверяем, существует ли папка Resourses
                     string resoursesFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resourses");
                     if (!Directory.Exists(resoursesFolder))
                     {
                         Directory.CreateDirectory(resoursesFolder);
                     }
 
-                    // Копируем изображение в папку Resourses
                     File.Copy(filePath, destPath, true);
                     ImageURLTextBox.Text = $"/Resourses/{fileName}";
                 }

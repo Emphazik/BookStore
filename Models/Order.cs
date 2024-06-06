@@ -12,35 +12,24 @@ namespace BookStore.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Books
+    public partial class Order
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Books()
+        public Order()
         {
             this.Cart = new HashSet<Cart>();
             this.Manager = new HashSet<Manager>();
         }
     
-        public int idBook { get; set; }
-        public string ISBN { get; set; }
-        public string Title { get; set; }
-        public int year_of_publication { get; set; }
-        public Nullable<int> idPublisher { get; set; }
-        public Nullable<int> idAuthor { get; set; }
-        public Nullable<int> idCategory { get; set; }
-        public string Size { get; set; }
-        public Nullable<decimal> Weight { get; set; }
-        public Nullable<int> Pages { get; set; }
-        public decimal Price { get; set; }
-        public string Description { get; set; }
-        public string ImageURL { get; set; }
+        public int id { get; set; }
+        public int idUser { get; set; }
+        public int idStatus { get; set; }
     
-        public virtual Authors Authors { get; set; }
-        public virtual Categories Categories { get; set; }
-        public virtual Publishers Publishers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Cart> Cart { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Manager> Manager { get; set; }
+        public virtual Status Status { get; set; }
+        public virtual Users Users { get; set; }
     }
 }

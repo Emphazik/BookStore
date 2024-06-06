@@ -7,21 +7,26 @@ using System.Windows.Controls;
 using System.Data.Entity;
 using BookStore.AdminWindows;
 using System;
+using System.Data;
 
-namespace BookStore
+namespace BookStore.AdminWindows
 {
-    public partial class MainWindow : Window
+    /// <summary>
+    /// Логика взаимодействия для UserWindow.xaml
+    /// </summary>
+    public partial class UserWindow : Window
     {
         private ObservableCollection<Books> Books { get; set; }
         private ObservableCollection<Books> FilteredBooks { get; set; }
 
-        public MainWindow()
+        private Users curuser = new Users();
+        public UserWindow(Users user)
         {
             InitializeComponent();
             LoadBooks();
-            LoadCategories(); // Загружаем категории
             AppConnect.model0db = new Entities();
             AppConnect.bookStoreHEntities = new BookStoreHEntities();
+            DataContext = curuser;
         }
 
         private void LoadBooks()
@@ -36,21 +41,6 @@ namespace BookStore
                 Books = new ObservableCollection<Books>(books);
                 FilteredBooks = new ObservableCollection<Books>(Books);
                 booksListView.ItemsSource = FilteredBooks;
-            }
-        }
-
-        private void LoadCategories()
-        {
-            using (var context = new BookStoreHEntities())
-            {
-                var categories = context.Categories.ToList();
-                categoryComboBox.Items.Clear();
-                categoryComboBox.Items.Add(new ComboBoxItem { Content = "Все категории" });
-                foreach (var category in categories)
-                {
-                    categoryComboBox.Items.Add(new ComboBoxItem { Content = category.Name });
-                }
-                categoryComboBox.SelectedIndex = 0; // Выбираем "Все категории" по умолчанию
             }
         }
 
@@ -75,44 +65,6 @@ namespace BookStore
             }
         }
 
-        private void DeleteBook_Click(object sender, RoutedEventArgs e)
-        {
-            var button = sender as Button;
-            if (button != null)
-            {
-                var book = button.DataContext as Books;
-                if (book != null)
-                {
-                    if (MessageBox.Show($"Вы точно хотите удалить книгу '{book.Title}'?", "Подтверждение удаления",
-                        MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-                    {
-                        try
-                        {
-                            using (var context = new BookStoreHEntities())
-                            {
-                                var existingBook = context.Books.Find(book.idBook);
-                                if (existingBook != null)
-                                {
-                                    context.Books.Remove(existingBook);
-                                    context.SaveChanges();
-                                    MessageBox.Show("Книга успешно удалена");
-                                    LoadBooks();
-                                }
-                                else
-                                {
-                                    MessageBox.Show("Книга не найдена в базе данных");
-                                }
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show($"Ошибка удаления книги: {ex.Message}");
-                        }
-                    }
-                }
-            }
-        }
-
         private void Info_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Поиск работает по названию книги. Введите название книги в поле поиска и нажмите кнопку поиска или введите текст для автоматического обновления результатов.\n\n" +
@@ -120,30 +72,6 @@ namespace BookStore
                             "Информация о работе поиска и сортировки",
                             MessageBoxButton.OK, MessageBoxImage.Information);
         }
-
-        private void Add_Click(object sender, RoutedEventArgs e)
-        {
-            AddBooks add = new AddBooks();
-            add.Show();
-            this.Close();
-        }
-
-        private void EditBook_Click(object sender, RoutedEventArgs e)
-        {
-            Button button = sender as Button;
-            if (button != null)
-            {
-                Books book = button.DataContext as Books;
-                if (book != null)
-                {
-                    EditBooks edit = new EditBooks(book);
-                    edit.ShowDialog();
-
-                    LoadBooks();
-                }
-            }
-        }
-
 
         private void User_Click(object sender, RoutedEventArgs e)
         {
@@ -170,7 +98,71 @@ namespace BookStore
 
         private void AddToCart_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                var button = sender as Button; var selectedBook = button.DataContext as Books;
+                if (!App.Current.Properties.Contains("idUser"))
+                {
+                    MessageBox.Show("Ошибка: Не удалось получить ID пользователя.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+                if (App.Current.Properties["idUser"] == null)
+                {
+                    MessageBox.Show("Ошибка: ID пользователя равен null.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+                if (!int.TryParse(App.Current.Properties["idUser"].ToString(), out int userId))
+                {
+                    MessageBox.Show("Ошибка: Не удалось преобразовать ID пользователя в число.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+                if (selectedBook != null)
+                {
+                    using (var context = new BookStoreHEntities())
+                    {
+                        var user = context.Users.FirstOrDefault(u => u.idUser == userId);
+                        if (user == null)
+                        {
+                            MessageBox.Show($"Ошибка: Пользователь с ID {userId} не найден.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); return;
+                        }
+                        var order = context.Order.FirstOrDefault(o => o.idUser == userId && o.idStatus == 2); if (order == null)
+                        {
+                            order = new Order
+                            {
+                                idUser = userId,
+                                idStatus = 2
+                            }; context.Order.Add(order);
+                            context.SaveChanges();
+                        }
+                        var cartItem = new Cart
+                        {
+                            idOrder = order.id,
+                            idBooks = selectedBook.idBook
+                        };
+                        context.Cart.Add(cartItem); context.SaveChanges();
+                        MessageBox.Show("Книга успешно добавлена в корзину!", "Уведомление", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Выберите книгу из списка!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Произошла ошибка при добавлении книги в корзину: " + ex.ToString(), "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
 
+
+
+
+
+        private void Shop_Click(object sender, RoutedEventArgs e)
+        {
+            ShopWindow shopWindow = new ShopWindow();
+            shopWindow.Show();
+            this.Close();
         }
 
         private void searchTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -211,24 +203,6 @@ namespace BookStore
                     break;
             }
             booksListView.ItemsSource = FilteredBooks;
-        }
-
-        private void FilterBooksByCategory()
-        {
-            string selectedCategory = (categoryComboBox.SelectedItem as ComboBoxItem)?.Content.ToString();
-            if (selectedCategory == "Все категории")
-            {
-                FilteredBooks = new ObservableCollection<Books>(Books);
-            }
-            else
-            {
-                FilteredBooks = new ObservableCollection<Books>(Books.Where(b => b.Categories.Name == selectedCategory));
-            }
-            booksListView.ItemsSource = FilteredBooks;
-        }
-        private void CategoryComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            FilterBooksByCategory();
         }
     }
 }

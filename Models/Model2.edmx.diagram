@@ -15,6 +15,16 @@
         <AssociationConnector Association="BookStoreHModel.FK__Books__idAuthor__6D0D32F4" />
         <AssociationConnector Association="BookStoreHModel.FK__Books__idCategor__6E01572D" />
         <AssociationConnector Association="BookStoreHModel.FK__Books__idPublish__6C190EBB" />
+        <EntityTypeShape EntityType="BookStoreHModel.Cart" Width="1.5" PointX="7.5" PointY="4.25" />
+        <EntityTypeShape EntityType="BookStoreHModel.Manager" Width="1.5" PointX="7.5" PointY="1.375" />
+        <EntityTypeShape EntityType="BookStoreHModel.Order" Width="1.5" PointX="5.25" PointY="1.25" />
+        <EntityTypeShape EntityType="BookStoreHModel.Status" Width="1.5" PointX="3" PointY="10.625" />
+        <AssociationConnector Association="BookStoreHModel.FK_Cart_Books" />
+        <AssociationConnector Association="BookStoreHModel.FK_Manager_Books" />
+        <AssociationConnector Association="BookStoreHModel.FK_Cart_Order" />
+        <AssociationConnector Association="BookStoreHModel.FK_Manager_Order" />
+        <AssociationConnector Association="BookStoreHModel.FK_Order_Status" />
+        <AssociationConnector Association="BookStoreHModel.FK_Order_Users" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

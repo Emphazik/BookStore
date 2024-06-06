@@ -30,12 +30,37 @@
           <Property Name="Description" Type="text" />
           <Property Name="ImageURL" Type="varchar" MaxLength="255" />
         </EntityType>
+        <EntityType Name="Cart">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idOrder" Type="int" Nullable="false" />
+          <Property Name="idBooks" Type="int" Nullable="false" />
+          <Property Name="Price" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+        </EntityType>
         <EntityType Name="Categories">
           <Key>
             <PropertyRef Name="idCategory" />
           </Key>
           <Property Name="idCategory" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Manager">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idOrder" Type="int" Nullable="false" />
+          <Property Name="idBooks" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idUser" Type="int" Nullable="false" />
+          <Property Name="idStatus" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Publishers">
           <Key>
@@ -50,6 +75,13 @@
           </Key>
           <Property Name="idRole" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="nameRole" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StatusName" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -99,6 +131,78 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Cart_Books">
+          <End Role="Books" Type="Self.Books" Multiplicity="1" />
+          <End Role="Cart" Type="Self.Cart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Books">
+              <PropertyRef Name="idBook" />
+            </Principal>
+            <Dependent Role="Cart">
+              <PropertyRef Name="idBooks" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cart_Order">
+          <End Role="Order" Type="Self.Order" Multiplicity="1" />
+          <End Role="Cart" Type="Self.Cart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Cart">
+              <PropertyRef Name="idOrder" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Manager_Books">
+          <End Role="Books" Type="Self.Books" Multiplicity="1" />
+          <End Role="Manager" Type="Self.Manager" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Books">
+              <PropertyRef Name="idBook" />
+            </Principal>
+            <Dependent Role="Manager">
+              <PropertyRef Name="idBooks" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Manager_Order">
+          <End Role="Order" Type="Self.Order" Multiplicity="1" />
+          <End Role="Manager" Type="Self.Manager" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Manager">
+              <PropertyRef Name="idOrder" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Status">
+          <End Role="Status" Type="Self.Status" Multiplicity="1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="idStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="idUser" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="idUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Users_Roles">
           <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
           <End Role="Users" Type="Self.Users" Multiplicity="*" />
@@ -114,9 +218,13 @@
         <EntityContainer Name="Хранилище BookStoreHModelContainer">
           <EntitySet Name="Authors" EntityType="Self.Authors" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Books" EntityType="Self.Books" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cart" EntityType="Self.Cart" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Manager" EntityType="Self.Manager" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Publishers" EntityType="Self.Publishers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__Books__idAuthor__6D0D32F4" Association="Self.FK__Books__idAuthor__6D0D32F4">
             <End Role="Authors" EntitySet="Authors" />
@@ -129,6 +237,30 @@
           <AssociationSet Name="FK__Books__idPublish__6C190EBB" Association="Self.FK__Books__idPublish__6C190EBB">
             <End Role="Publishers" EntitySet="Publishers" />
             <End Role="Books" EntitySet="Books" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cart_Books" Association="Self.FK_Cart_Books">
+            <End Role="Books" EntitySet="Books" />
+            <End Role="Cart" EntitySet="Cart" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cart_Order" Association="Self.FK_Cart_Order">
+            <End Role="Order" EntitySet="Order" />
+            <End Role="Cart" EntitySet="Cart" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Manager_Books" Association="Self.FK_Manager_Books">
+            <End Role="Books" EntitySet="Books" />
+            <End Role="Manager" EntitySet="Manager" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Manager_Order" Association="Self.FK_Manager_Order">
+            <End Role="Order" EntitySet="Order" />
+            <End Role="Manager" EntitySet="Manager" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Status" Association="Self.FK_Order_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Users" Association="Self.FK_Order_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Order" EntitySet="Order" />
           </AssociationSet>
           <AssociationSet Name="FK_Users_Roles" Association="Self.FK_Users_Roles">
             <End Role="Roles" EntitySet="Roles" />
@@ -159,6 +291,7 @@
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Roles" Relationship="Self.FK_Users_Roles" FromRole="Users" ToRole="Roles" />
+          <NavigationProperty Name="Order" Relationship="BookStoreHModel.FK_Order_Users" FromRole="Users" ToRole="Order" />
         </EntityType>
         <Association Name="FK_Users_Roles">
           <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
@@ -195,6 +328,34 @@
             <End Role="Publishers" EntitySet="Publishers" />
             <End Role="Books" EntitySet="Books" />
           </AssociationSet>
+          <EntitySet Name="Cart" EntityType="BookStoreHModel.Cart" />
+          <EntitySet Name="Manager" EntityType="BookStoreHModel.Manager" />
+          <EntitySet Name="Order" EntityType="BookStoreHModel.Order" />
+          <EntitySet Name="Status" EntityType="BookStoreHModel.Status" />
+          <AssociationSet Name="FK_Cart_Books" Association="BookStoreHModel.FK_Cart_Books">
+            <End Role="Books" EntitySet="Books" />
+            <End Role="Cart" EntitySet="Cart" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Manager_Books" Association="BookStoreHModel.FK_Manager_Books">
+            <End Role="Books" EntitySet="Books" />
+            <End Role="Manager" EntitySet="Manager" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cart_Order" Association="BookStoreHModel.FK_Cart_Order">
+            <End Role="Order" EntitySet="Order" />
+            <End Role="Cart" EntitySet="Cart" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Manager_Order" Association="BookStoreHModel.FK_Manager_Order">
+            <End Role="Order" EntitySet="Order" />
+            <End Role="Manager" EntitySet="Manager" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Status" Association="BookStoreHModel.FK_Order_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Users" Association="BookStoreHModel.FK_Order_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Authors">
           <Key>
@@ -224,6 +385,8 @@
           <NavigationProperty Name="Authors" Relationship="BookStoreHModel.FK__Books__idAuthor__6D0D32F4" FromRole="Books" ToRole="Authors" />
           <NavigationProperty Name="Categories" Relationship="BookStoreHModel.FK__Books__idCategor__6E01572D" FromRole="Books" ToRole="Categories" />
           <NavigationProperty Name="Publishers" Relationship="BookStoreHModel.FK__Books__idPublish__6C190EBB" FromRole="Books" ToRole="Publishers" />
+          <NavigationProperty Name="Cart" Relationship="BookStoreHModel.FK_Cart_Books" FromRole="Books" ToRole="Cart" />
+          <NavigationProperty Name="Manager" Relationship="BookStoreHModel.FK_Manager_Books" FromRole="Books" ToRole="Manager" />
         </EntityType>
         <EntityType Name="Categories">
           <Key>
@@ -274,6 +437,119 @@
             </Principal>
             <Dependent Role="Books">
               <PropertyRef Name="idPublisher" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Cart">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idOrder" Type="Int32" Nullable="false" />
+          <Property Name="idBooks" Type="Int32" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <NavigationProperty Name="Books" Relationship="BookStoreHModel.FK_Cart_Books" FromRole="Cart" ToRole="Books" />
+          <NavigationProperty Name="Order" Relationship="BookStoreHModel.FK_Cart_Order" FromRole="Cart" ToRole="Order" />
+        </EntityType>
+        <EntityType Name="Manager">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idOrder" Type="Int32" Nullable="false" />
+          <Property Name="idBooks" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Books" Relationship="BookStoreHModel.FK_Manager_Books" FromRole="Manager" ToRole="Books" />
+          <NavigationProperty Name="Order" Relationship="BookStoreHModel.FK_Manager_Order" FromRole="Manager" ToRole="Order" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idUser" Type="Int32" Nullable="false" />
+          <Property Name="idStatus" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Cart" Relationship="BookStoreHModel.FK_Cart_Order" FromRole="Order" ToRole="Cart" />
+          <NavigationProperty Name="Manager" Relationship="BookStoreHModel.FK_Manager_Order" FromRole="Order" ToRole="Manager" />
+          <NavigationProperty Name="Status" Relationship="BookStoreHModel.FK_Order_Status" FromRole="Order" ToRole="Status" />
+          <NavigationProperty Name="Users" Relationship="BookStoreHModel.FK_Order_Users" FromRole="Order" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StatusName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Order" Relationship="BookStoreHModel.FK_Order_Status" FromRole="Status" ToRole="Order" />
+        </EntityType>
+        <Association Name="FK_Cart_Books">
+          <End Type="BookStoreHModel.Books" Role="Books" Multiplicity="1" />
+          <End Type="BookStoreHModel.Cart" Role="Cart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Books">
+              <PropertyRef Name="idBook" />
+            </Principal>
+            <Dependent Role="Cart">
+              <PropertyRef Name="idBooks" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Manager_Books">
+          <End Type="BookStoreHModel.Books" Role="Books" Multiplicity="1" />
+          <End Type="BookStoreHModel.Manager" Role="Manager" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Books">
+              <PropertyRef Name="idBook" />
+            </Principal>
+            <Dependent Role="Manager">
+              <PropertyRef Name="idBooks" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cart_Order">
+          <End Type="BookStoreHModel.Order" Role="Order" Multiplicity="1" />
+          <End Type="BookStoreHModel.Cart" Role="Cart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Cart">
+              <PropertyRef Name="idOrder" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Manager_Order">
+          <End Type="BookStoreHModel.Order" Role="Order" Multiplicity="1" />
+          <End Type="BookStoreHModel.Manager" Role="Manager" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Manager">
+              <PropertyRef Name="idOrder" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Status">
+          <End Type="BookStoreHModel.Status" Role="Status" Multiplicity="1" />
+          <End Type="BookStoreHModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="idStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Users">
+          <End Type="BookStoreHModel.Users" Role="Users" Multiplicity="1" />
+          <End Type="BookStoreHModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="idUser" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="idUser" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -344,6 +620,42 @@
               <MappingFragment StoreEntitySet="Publishers">
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="idPublisher" ColumnName="idPublisher" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cart">
+            <EntityTypeMapping TypeName="BookStoreHModel.Cart">
+              <MappingFragment StoreEntitySet="Cart">
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="idBooks" ColumnName="idBooks" />
+                <ScalarProperty Name="idOrder" ColumnName="idOrder" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Manager">
+            <EntityTypeMapping TypeName="BookStoreHModel.Manager">
+              <MappingFragment StoreEntitySet="Manager">
+                <ScalarProperty Name="idBooks" ColumnName="idBooks" />
+                <ScalarProperty Name="idOrder" ColumnName="idOrder" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Order">
+            <EntityTypeMapping TypeName="BookStoreHModel.Order">
+              <MappingFragment StoreEntitySet="Order">
+                <ScalarProperty Name="idStatus" ColumnName="idStatus" />
+                <ScalarProperty Name="idUser" ColumnName="idUser" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Status">
+            <EntityTypeMapping TypeName="BookStoreHModel.Status">
+              <MappingFragment StoreEntitySet="Status">
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

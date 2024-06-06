@@ -1,4 +1,6 @@
-﻿using BookStore.ApplicationData;
+﻿using BookStore.AdminWindows;
+using BookStore.ApplicationData;
+using BookStore.ManagerWindows;
 using BookStore.Models;
 using System;
 using System.Collections.Generic;
@@ -71,16 +73,19 @@ namespace BookStore.Windows
                             this.Close();
                             break;
                         case 2:
-                            App.Current.Properties["Id"] = user.idUser;
+                            App.Current.Properties["idUser"] = user.idUser;
                             MessageBox.Show($"Приветствую Пользователя, {user.Username}",
                     "Уведомление", MessageBoxButton.OK, MessageBoxImage.Information);
-                            MainWindow main1 = new MainWindow();
+                            UserWindow main1 = new UserWindow((sender as Button).DataContext as Users);
                             main1.Show();
                             this.Close();
                             break;
                         default:
-                            MessageBox.Show("Данные не обнаружены!",
+                            MessageBox.Show($"Приветствую Менеджера, {user.Username}",
                     "Уведомление", MessageBoxButton.OK, MessageBoxImage.Information);
+                            Manager1 manager = new Manager1();
+                            manager.Show();
+                            this.Close();
                             break;
                     }
                 }
