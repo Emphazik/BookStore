@@ -23,6 +23,14 @@
 
         <StackPanel Orientation="Horizontal" Margin="10" Grid.Row="0">
             <TextBox x:Name="searchTextBox" Width="350" Margin="0,0,5,0" FontSize="18" TextChanged="searchTextBox_TextChanged" AutomationProperties.HelpText="Поиск по названию книги:"/>
+            <ComboBox x:Name="categoryComboBox" Width="200" Margin="5" SelectionChanged="CategoryComboBox_SelectionChanged">
+                <ComboBoxItem Content="Все категории"/>
+                <ComboBoxItem Content="Фантастика"/>
+                <ComboBoxItem Content="Детектив"/>
+                <ComboBoxItem Content="Роман"/>
+                <ComboBoxItem Content="Научная литература"/>
+                <ComboBoxItem Content="Детская литература"/>
+            </ComboBox>
             <ComboBox x:Name="SortBox" Width="200" Height="30" Margin="5" SelectionChanged="SortBox_SelectionChanged">
                 <ComboBoxItem Content="Сортировать по названию ↑"/>
                 <ComboBoxItem Content="Сортировать по названию ↓"/>
@@ -37,7 +45,7 @@
             <Button Background="CadetBlue" BorderBrush="Black" Width="30" Margin="0,0,5,0" Click="Clear_Click">
                 <Image Source="/Resourses/delete.png" Stretch="Uniform"/>
             </Button>
-            <Button Background="CadetBlue" BorderBrush="Black" Width="30" Margin="0,0,330,0" Click="Info_Click">
+            <Button Background="CadetBlue" BorderBrush="Black" Width="30" Margin="0,0,130,0" Click="Info_Click">
                 <Image Source="/Resourses/info.png" Stretch="Uniform" Width="20"/>
             </Button>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,5,0">

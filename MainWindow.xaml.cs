@@ -137,7 +137,8 @@ namespace BookStore
                 if (book != null)
                 {
                     EditBooks edit = new EditBooks(book);
-                    edit.ShowDialog();
+                    edit.Show();
+                    this.Close();
 
                     LoadBooks();
                 }

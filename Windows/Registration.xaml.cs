@@ -71,7 +71,7 @@ namespace BookStore.Windows
                 "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            if (txtConfirmPassword.Password != txtPassword.Password)
+            if (txtConfirmPassword.Password != txtPassword.Password || string.IsNullOrWhiteSpace(txtPassword.Password))
             {
                 btnRegister1.IsEnabled = false;
             }

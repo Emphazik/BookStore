@@ -1,6 +1,9 @@
 ﻿using BookStore.ApplicationData;
 using BookStore.Models;
+using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows;
 
@@ -9,6 +12,10 @@ namespace BookStore.AdminWindows
     public partial class EditBooks : Window
     {
         private Books bookToEdit;
+
+        private List<Categories> categories = AppConnect.bookStoreHEntities.Categories.ToList();
+        private List<Authors> authors = AppConnect.bookStoreHEntities.Authors.ToList();
+        private List<Publishers> publishers = AppConnect.bookStoreHEntities.Publishers.ToList();
 
         public EditBooks(Books book)
         {
@@ -21,17 +28,11 @@ namespace BookStore.AdminWindows
 
         private void LoadComboBoxData()
         {
-            PublisherComboBox.ItemsSource = AppConnect.bookStoreHEntities.Publishers.ToList();
-            PublisherComboBox.DisplayMemberPath = "Name";
-            PublisherComboBox.SelectedValuePath = "Id";
+            PublisherComboBox.ItemsSource = publishers;
 
-            AuthorComboBox.ItemsSource = AppConnect.bookStoreHEntities.Authors.ToList();
-            AuthorComboBox.DisplayMemberPath = "Name";
-            AuthorComboBox.SelectedValuePath = "Id";
+            AuthorComboBox.ItemsSource = authors;
 
-            CategoryComboBox.ItemsSource = AppConnect.bookStoreHEntities.Categories.ToList();
-            CategoryComboBox.DisplayMemberPath = "Name";
-            CategoryComboBox.SelectedValuePath = "Id";
+            CategoryComboBox.ItemsSource = categories;
         }
 
         private void FillFields()
@@ -42,9 +43,9 @@ namespace BookStore.AdminWindows
                 TitleTextBox.Text = bookToEdit.Title;
                 YearTextBox.Text = bookToEdit.year_of_publication.ToString();
 
-                PublisherComboBox.SelectedValue = bookToEdit.idPublisher ?? 0;
-                AuthorComboBox.SelectedValue = bookToEdit.idAuthor ?? 0;
-                CategoryComboBox.SelectedValue = bookToEdit.idCategory ?? 0;
+                PublisherComboBox.SelectedIndex = publishers.FindIndex(c => c.idPublisher == bookToEdit.idPublisher);
+                AuthorComboBox.SelectedIndex = authors.FindIndex(c => c.idAuthor == bookToEdit.idAuthor);
+                CategoryComboBox.SelectedIndex = categories.FindIndex(c => c.idCategory == bookToEdit.idCategory);
 
                 SizeTextBox.Text = bookToEdit.Size;
                 WeightTextBox.Text = bookToEdit.Weight.ToString();
@@ -71,11 +72,11 @@ namespace BookStore.AdminWindows
                             existingBook.year_of_publication = int.Parse(YearTextBox.Text);
 
                             if (PublisherComboBox.SelectedValue != null)
-                                existingBook.idPublisher = (int)PublisherComboBox.SelectedValue;
+                                existingBook.idPublisher = publishers[PublisherComboBox.SelectedIndex].idPublisher;
                             if (AuthorComboBox.SelectedValue != null)
-                                existingBook.idAuthor = (int)AuthorComboBox.SelectedValue;
+                                existingBook.idAuthor = authors[AuthorComboBox.SelectedIndex].idAuthor;
                             if (CategoryComboBox.SelectedValue != null)
-                                existingBook.idCategory = (int)CategoryComboBox.SelectedValue;
+                                existingBook.idCategory = categories[CategoryComboBox.SelectedIndex].idCategory;
 
                             existingBook.Size = SizeTextBox.Text;
                             existingBook.Weight = decimal.Parse(WeightTextBox.Text);
@@ -86,7 +87,9 @@ namespace BookStore.AdminWindows
 
                             context.SaveChanges();
                             MessageBox.Show("Информация о книге обновлена успешно");
-                            DialogResult = true; // Закройте окно после сохранения изменений
+                            
+                            new MainWindow().Show();
+                            this.Close();
                         }
                         else
                         {
@@ -110,7 +113,30 @@ namespace BookStore.AdminWindows
 
         private void UploadImage_Click(object sender, RoutedEventArgs e)
         {
-            // Обработка загрузки изображения
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Image files (*.png;*.jpeg)|*.png;*.jpeg";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string filePath = openFileDialog.FileName;
+                string fileName = Path.GetFileName(filePath);
+                string destPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resourses", fileName);
+
+                try
+                {
+                    string resoursesFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resourses");
+                    if (!Directory.Exists(resoursesFolder))
+                    {
+                        Directory.CreateDirectory(resoursesFolder);
+                    }
+
+                    new FileInfo(filePath).CopyTo(destPath, true);
+                    ImageURLTextBox.Text = $"/Resourses/{fileName}";
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка при копировании изображения: {ex.Message}");
+                }
+            }
         }
     }
 }

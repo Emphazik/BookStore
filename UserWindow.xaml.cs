@@ -24,6 +24,7 @@ namespace BookStore.AdminWindows
         {
             InitializeComponent();
             LoadBooks();
+            LoadCategories();
             AppConnect.model0db = new Entities();
             AppConnect.bookStoreHEntities = new BookStoreHEntities();
             DataContext = curuser;
@@ -41,6 +42,21 @@ namespace BookStore.AdminWindows
                 Books = new ObservableCollection<Books>(books);
                 FilteredBooks = new ObservableCollection<Books>(Books);
                 booksListView.ItemsSource = FilteredBooks;
+            }
+        }
+
+        private void LoadCategories()
+        {
+            using (var context = new BookStoreHEntities())
+            {
+                var categories = context.Categories.ToList();
+                categoryComboBox.Items.Clear();
+                categoryComboBox.Items.Add(new ComboBoxItem { Content = "Все категории" });
+                foreach (var category in categories)
+                {
+                    categoryComboBox.Items.Add(new ComboBoxItem { Content = category.Name });
+                }
+                categoryComboBox.SelectedIndex = 0;
             }
         }
 
@@ -203,6 +219,24 @@ namespace BookStore.AdminWindows
                     break;
             }
             booksListView.ItemsSource = FilteredBooks;
+        }
+
+        private void FilterBooksByCategory()
+        {
+            string selectedCategory = (categoryComboBox.SelectedItem as ComboBoxItem)?.Content.ToString();
+            if (selectedCategory == "Все категории")
+            {
+                FilteredBooks = new ObservableCollection<Books>(Books);
+            }
+            else
+            {
+                FilteredBooks = new ObservableCollection<Books>(Books.Where(b => b.Categories.Name == selectedCategory));
+            }
+            booksListView.ItemsSource = FilteredBooks;
+        }
+        private void CategoryComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            FilterBooksByCategory();
         }
     }
 }
